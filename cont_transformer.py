@@ -81,13 +81,10 @@ X_test = torch.from_numpy(X_test).float()
 y_test = torch.from_numpy(y_test).long()
 
 # Hyperparameter
-#learning_rate = 0.001
-#num_epochs = num_epoch
 batch_size = 128
 input_dim = channel
 hidden_dim = 64
 output_dim = 128
-#device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 num_heads = 8
 num_layers = 2
 dropout = 0.1
@@ -114,7 +111,6 @@ class TransformerModel(nn.Module):
 
         # Apply linear transformation to the averaged output
         x = self.relu(self.fc_1(x_avg))
-        #output = self.fc_2(x)
 
         return x
 
@@ -135,7 +131,6 @@ for epoch in range(num_epoch_pretraining):
 
         # Forward pass
         outputs = model(inputs)
-        #print(outputs.shape, labels.shape)
         # Compute loss
         loss = criterion(outputs,labels)
 
@@ -148,8 +143,6 @@ for epoch in range(num_epoch_pretraining):
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-    # Print the training loss after each epoch
-    #print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')
  
 
 model.load_state_dict(best_model_state)
@@ -203,10 +196,6 @@ for epoch in range(num_epoch_normal):
         loss.backward()
         optimizer.step()
 
-    # Print the training loss after each epoch
-    #print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')
-
-
 
 classifier.load_state_dict(best_model_state)
 # Evaluate the model on the test set
@@ -234,37 +223,5 @@ if channel == 3:
 else:
     print(f'Transformer META_HAR Contrastive accuracy: {accuracy}')         
 
-# if channel == 3:
-#     labels = ['Downstairs', 'Jogging', 'Sitting', 'Standing', 'Upstairs', 'Walking']
-# else:
-#     labels = ['Walk', 'Bike', 'Upstairs', 'Downstairs', 'Run', 'bus/taxi']
 
-# # Compute confusion matrix
-# cm = confusion_matrix(y_test, preds)
-# # normalize confusion matrix
-# cm_norm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
-
-# # Plot confusion matrix
-# fig, ax = plt.subplots()
-# im = ax.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
-# ax.figure.colorbar(im, ax=ax)
-# ax.set(xticks=np.arange(cm.shape[1]),
-#     yticks=np.arange(cm.shape[0]),
-#     xticklabels=labels, yticklabels=labels,
-#     ylabel='Actual label',
-#     xlabel='Predicted label')
-
-# # Rotate the tick labels and set their alignment.
-# plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
-#         rotation_mode="anchor")
-
-# # Loop over data dimensions and create text annotations.
-# for i in range(cm_norm.shape[0]):
-#     for j in range(cm_norm.shape[1]):
-#         ax.text(j, i, format(cm_norm[i, j], '.2f'),
-#                 ha="center", va="center",
-#                 color="black" if cm_norm[i, j] > cm_norm.max() / 2. else "black")
-        
-# fig.tight_layout()
-# plt.show()
 
