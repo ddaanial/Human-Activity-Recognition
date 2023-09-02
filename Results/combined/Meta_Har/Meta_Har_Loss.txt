@@ -1,0 +1,6 @@
+Epoch [1/30], loss: 0.7782, accuracy: 74.14%
+Epoch [2/30], loss: 0.5668, accuracy: 82.02%
+Epoch [3/30], loss: 0.4883, accuracy: 84.32%
+Epoch [4/30], loss: 0.4487, accuracy: 85.75%
+Epoch [5/30], loss: 0.4001, accuracy: 87.10%
+Epoch [6/30], loss: 0.3691, accuracy: 87.96%
