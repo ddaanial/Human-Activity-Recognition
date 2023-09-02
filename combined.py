@@ -213,11 +213,7 @@ y_test = torch.from_numpy(y_test).long()
 
 # Hyperparameters
 batch_size = 32
-#learning_rate = 0.001
-#num_epochs = num_epoch_
 input_dim = channel
-
-#device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 # Initialize model, loss function, and optimizer
@@ -257,25 +253,6 @@ for epoch in range(num_epoch_normal):
     epoch_loss /= len(X_train_lstm) / batch_size
     epoch_acc /= len(y_train)
 
-
-    # print(f'Epoch {epoch+1}, loss: {epoch_loss:.4f}, accuracy: {epoch_acc:.2%}')
-    # # Open a file for writing
-    # if channel == 3:
-    #     with open('Results/combined/WISDM/WISDM_Loss.txt', 'a') as file:
-    #         # Write the accuracy 
-    #         file.write(f'Epoch [{epoch+1}/{num_epochs}], loss: {epoch_loss:.4f}, accuracy: {epoch_acc:.2%}\n')
-    # else:
-    #     with open('Results/combined/Meta_Har/Meta_Har_Loss.txt', 'a') as file:
-    #         # Write the accuracy 
-    #         file.write(f'Epoch [{epoch+1}/{num_epochs}], loss: {epoch_loss:.4f}, accuracy: {epoch_acc:.2%}\n')
-
-# Save the best model state to a file
-# if channel == 3:
-#     torch.save(best_model_state, 'Results/combined/WISDM/WISDM_best_model.pth')
-# else:
-#     torch.save(best_model_state, 'Results/combined/Meta_Har/Meta_Har_best_model.pth')
-
-
 model.load_state_dict(best_model_state)
 
 
@@ -304,60 +281,10 @@ with torch.no_grad():
 
     f1 = f1_score(preds,y_test,average='weighted')
 
-#     if channel == 3:
-#         with open('Results/combined/WISDM/WISDM_Result.txt', 'w') as file:
-#             # Write the accuracy and loss to the file
-#             file.write(f'test loss: {test_loss}\n')
-#             file.write(f'test accuracy: {test_acc}\n')
-#             file.write(f'F1 Score: {f1}\n')
-#     else:
-#         with open('Results/combined/Meta_Har/Meta_Har_Result.txt', 'w') as file:
-#             # Write the accuracy and loss to the file
-#             file.write(f'test loss: {test_loss}\n')
-#             file.write(f'test accuracy: {test_acc}\n')
-#             file.write(f'F1 Score: {f1}\n')
 
 if channel == 3:
     print(f'Combined WISDM CE accuracy: {test_acc}')  
 else:
     print(f'Combined META_HAR CE accuracy: {test_acc}')   
-# print(f'Test loss: {test_loss:.4f}, test accuracy: {test_acc:.2%}, F1 Score: {f1}')
 
-# if channel == 3:
-#     labels = ['Downstairs', 'Jogging', 'Sitting', 'Standing', 'Upstairs', 'Walking']
-# else:
-#     labels = ['Walk', 'Bike', 'Upstairs', 'Downstairs', 'Run', 'bus/taxi']
-
-# # Compute confusion matrix
-# cm = confusion_matrix(y_test, preds)
-# # normalize confusion matrix
-# cm_norm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
-
-# # Plot confusion matrix
-# fig, ax = plt.subplots()
-# im = ax.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
-# ax.figure.colorbar(im, ax=ax)
-# ax.set(xticks=np.arange(cm.shape[1]),
-#     yticks=np.arange(cm.shape[0]),
-#     xticklabels=labels, yticklabels=labels,
-#     ylabel='Actual label',
-#     xlabel='Predicted label')
-
-# # Rotate the tick labels and set their alignment.
-# plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
-#         rotation_mode="anchor")
-
-# # Loop over data dimensions and create text annotations.
-# for i in range(cm_norm.shape[0]):
-#     for j in range(cm_norm.shape[1]):
-#         ax.text(j, i, format(cm_norm[i, j], '.2f'),
-#                 ha="center", va="center",
-#                 color="black" if cm_norm[i, j] > cm_norm.max() / 2. else "black")
-        
-# fig.tight_layout()
-
-# if channel == 3:
-#     plt.savefig('Results/combined/WISDM/WISDM_confusion_matrix.png')
-# else:
-#     plt.savefig('Results/combined/Meta_Har/Meta_Har_confusion_matrix.png')
 
