@@ -1,0 +1,1 @@
+Epoch [30/30], Test Accuracy: 95.27%
