@@ -9,7 +9,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import argparse
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix, f1_score, accuracy_score
+from sklearn.metrics import f1_score, accuracy_score
 
 parser = argparse.ArgumentParser()
 parser.add_argument('channel', type=int)
@@ -50,11 +50,6 @@ else:
     X_train = X_train.reshape((-1, 150, 6))
     X_test = X_test.reshape((-1, 150, 6))
 
-# Convert data and labels to PyTorch tensors
-# X_train = torch.from_numpy(X_train).float()
-# y_train = torch.from_numpy(y_train).long()
-# X_test = torch.from_numpy(X_test).float()
-# y_test = torch.from_numpy(y_test).long()
 
 class CustomDataset(torch.utils.data.Dataset):
     def __init__(self, data_file, label_file):
@@ -108,12 +103,9 @@ class TripleContrastiveLoss(nn.Module):
 
 # Hyperparameter
 batch_size = 32
-#learning_rate = 0.001
-#num_epochs = num_epoch
 input_dim = channel
 hidden_dim = 150
 output_dim = 128
-#device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 
@@ -219,9 +211,6 @@ for epoch in range(num_epoch_pretraining):
         loss.backward()
         optimizer.step()
 
-        # Print the loss every 100 batches
-        # if (i+1) % 100 == 0:
-        #     print("Epoch {} | Batch {} | Loss: {:.4f}".format(epoch+1, i+1, loss.item()))
 
     # Evaluate the model on the test set
     net.eval()
@@ -244,23 +233,7 @@ for epoch in range(num_epoch_pretraining):
             total += dist_pos.size(0)
 
     accuracy = 100 * correct / total
-#     print(f'Test Accuracy: {accuracy:.2f}%')
 
-#     # Open a file for writing
-#     if channel == 3:
-#         with open('Results/Triplet/WISDM/Contrastive/WISDM_Result.txt', 'w') as file:
-#             # Write the accuracy and F1 score to the file
-#             file.write(f'Epoch [{epoch+1}/{num_epochs}], Test Accuracy: {accuracy:.2f}%')
-#     else:
-#         with open('Results/Triplet/Meta_Har/Contrastive/Meta_Har_Result.txt', 'w') as file:
-#             # Write the accuracy and F1 score to the file
-#             file.write(f'Epoch [{epoch+1}/{num_epochs}], Test Accuracy: {accuracy:.2f}%')
-
-# # Save the best model state to a file
-# if channel == 3:
-#     torch.save(best_model_state, 'Results/Triplet/WISDM/Contrastive/WISDM_best_model.pth')
-# else:
-#     torch.save(best_model_state, 'Results/Triplet/Meta_Har/Contrastive/Meta_Har_best_model.pth')
 
 net.load_state_dict(best_model_state)
 
@@ -324,24 +297,7 @@ for epoch in range(num_epoch_normal):
     epoch_loss /= len(X_train) / batch_size
     epoch_acc /= len(y_train)
 
-    # # Print the training loss after each epoch
-    # print(f'Epoch {epoch+1}, loss: {epoch_loss:.4f}, accuracy: {epoch_acc:.2%}')
 
-    # # Open a file for writing
-    # if channel == 3:
-    #     with open('Results/Triplet/WISDM/Classifier/WISDM_Loss.txt', 'a') as file:
-    #         # Write the accuracy 
-    #         file.write(f'Epoch [{epoch+1}/{num_epochs}], loss: {epoch_loss:.4f}, accuracy: {epoch_acc:.2%}\n')
-    # else:
-    #     with open('Results/Triplet/Meta_Har/Classifier/Meta_Har_Loss.txt', 'a') as file:
-    #         # Write the accuracy 
-    #         file.write(f'Epoch [{epoch+1}/{num_epochs}], loss: {epoch_loss:.4f}, accuracy: {epoch_acc:.2%}\n')
-
-# Save the best model state to a file
-# if channel == 3:
-#     torch.save(best_model_state, 'Results/Triplet/WISDM/Classifier/WISDM_best_model1.pth')
-# else:
-#     torch.save(best_model_state, 'Results/Triplet/Meta_Har/Classifier/Meta_Har_best_model.pth')
 
 
 model.load_state_dict(best_model_state)
@@ -371,18 +327,6 @@ with torch.no_grad():
     test_loss /= len(X_test) / batch_size
     f1 = f1_score(preds,y_test,average='weighted')    
 
-    # if channel == 3:
-    #     with open('Results/Triplet/WISDM/Classifier/WISDM_Result.txt', 'w') as file:
-    #         # Write the accuracy and loss to the file
-    #         file.write(f'test loss: {test_loss}\n')
-    #         file.write(f'test accuracy: {accuracy}\n')
-    #         file.write(f'F1 Score: {f1}')
-    # else:
-    #     with open('Results/Triplet/Meta_Har/Classifier/Meta_Har_Result.txt', 'w') as file:
-    #         # Write the accuracy and loss to the file
-    #         file.write(f'test loss: {test_loss}\n')
-    #         file.write(f'test accuracy: {accuracy}\n')
-    #         file.write(f'F1 Score: {f1}')
 
 
 if channel == 3:
@@ -390,40 +334,4 @@ if channel == 3:
 else:
     print(f'Lstm Linear META_HAR Triplet accuracy: {accuracy}')  
 
-# if channel == 3:
-#     labels = ['Downstairs', 'Jogging', 'Sitting', 'Standing', 'Upstairs', 'Walking']
-# else:
-#     labels = ['Walk', 'Bike', 'Upstairs', 'Downstairs', 'Run', 'bus/taxi']
 
-# # Compute confusion matrix
-# cm = confusion_matrix(y_test, preds)
-# # normalize confusion matrix
-# cm_norm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
-
-# # Plot confusion matrix
-# fig, ax = plt.subplots()
-# im = ax.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
-# ax.figure.colorbar(im, ax=ax)
-# ax.set(xticks=np.arange(cm.shape[1]),
-#     yticks=np.arange(cm.shape[0]),
-#     xticklabels=labels, yticklabels=labels,
-#     ylabel='Actual label',
-#     xlabel='Predicted label')
-
-# # Rotate the tick labels and set their alignment.
-# plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
-#         rotation_mode="anchor")
-
-# # Loop over data dimensions and create text annotations.
-# for i in range(cm_norm.shape[0]):
-#     for j in range(cm_norm.shape[1]):
-#         ax.text(j, i, format(cm_norm[i, j], '.2f'),
-#                 ha="center", va="center",
-#                 color="black" if cm_norm[i, j] > cm_norm.max() / 2. else "black")
-        
-# fig.tight_layout()
-
-# if channel == 3:
-#     plt.savefig('Results/Triplet/WISDM/WISDM_confusion_matrix.png')
-# else:
-#     plt.savefig('Results/Triplet/Meta_Har/Meta_Har_confusion_matrix.png')
