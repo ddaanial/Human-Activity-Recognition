@@ -10,14 +10,7 @@ import torch.nn as nn
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, f1_score, accuracy_score
 import torch.nn.functional as F
-# # plot the results
-# plt.imshow(power_combined, extent=[-1, 1, 1, 128], cmap='jet', aspect='auto',
-#            vmax=abs(coef).max(), vmin=-abs(coef).max())
-# plt.xlabel('Time')
-# plt.ylabel('Scale (log)')
-# plt.show()
 
-# plt.show()
 
 parser = argparse.ArgumentParser()
 parser.add_argument('channel', type=int)
@@ -135,8 +128,6 @@ class ResNet18(torch.nn.Module):
 # create DataLoader for training set
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
-
-# Split data into train and test sets
 
 
 # Convert data and labels to PyTorch tensors

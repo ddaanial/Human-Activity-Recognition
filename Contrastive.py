@@ -90,7 +90,6 @@ for epoch in range(num_epochs):
 
         # Forward pass
         outputs = model(inputs)
-        #print(outputs.shape, labels.shape)
         # Compute loss
         loss = criterion(outputs,labels)
 
