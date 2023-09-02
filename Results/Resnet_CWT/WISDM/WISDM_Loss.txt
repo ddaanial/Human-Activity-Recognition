@@ -1,0 +1,16 @@
+Epoch [1/16], loss: 0.4747, accuracy: 83.14%
+Epoch [2/16], loss: 0.2711, accuracy: 90.91%
+Epoch [3/16], loss: 0.2164, accuracy: 92.73%
+Epoch [4/16], loss: 0.1771, accuracy: 93.83%
+Epoch [5/16], loss: 0.1563, accuracy: 94.51%
+Epoch [6/16], loss: 0.1395, accuracy: 95.37%
+Epoch [7/16], loss: 0.1238, accuracy: 95.72%
+Epoch [8/16], loss: 0.1104, accuracy: 96.13%
+Epoch [9/16], loss: 0.1041, accuracy: 96.50%
+Epoch [10/16], loss: 0.0983, accuracy: 96.72%
+Epoch [11/16], loss: 0.0784, accuracy: 97.42%
+Epoch [12/16], loss: 0.0801, accuracy: 97.23%
+Epoch [13/16], loss: 0.0686, accuracy: 97.57%
+Epoch [14/16], loss: 0.0750, accuracy: 97.32%
+Epoch [15/16], loss: 0.0590, accuracy: 97.83%
+Epoch [16/16], loss: 0.0575, accuracy: 97.93%
