@@ -1,0 +1,2 @@
+test accuracy: 0.874
+F1 score: 0.8751046728934667
